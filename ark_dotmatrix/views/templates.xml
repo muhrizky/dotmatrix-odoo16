@@ -1,0 +1,134 @@
+<odoo>
+    <data>
+      <record id="template_dotmatrix_so" model="mail.template">
+        <field name="name">Dotmatrix SO</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">Dot Matrix Template for SO</field>
+        <field name="body_html" type="html">
+          <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+              <t t-out="object.company_id.name or ''">PT.xyz</t>
+              <br/>           
+                Tanggal : <t t-out="(str(object.date_order.date())or '').ljust(30,'?')"/><t t-out="object.partner_id.name"/>
+              <br/>
+                <t t-out="'No#'.ljust(7,'?')"/> : <t t-out="(object.name or '').ljust(30,'?')"/><t t-out="object.partner_id.street"/><t t-out="object.partner_id.street2"/>
+              <br/>
+                <t t-out="' '.ljust(41,'?')"/><t t-out="object.partner_id.city"/>
+              <br/>
+              <br/>
+                <t t-out="'Qty '.rjust(12,'?')"/><t t-out="'Item Barang'.ljust(25,'?')"/><t t-out="'Merek'.ljust(6,'?')"/><t t-out="'Harga (Rp.)'.rjust(17,'?')"/><t t-out="'Jumlah'.rjust(17,'?')"/>
+              <br/>
+               <t t-out="' '.ljust(80,'-')"/>
+              <br/>
+              <t t-foreach="object.order_line" t-as="o">
+                <tr>
+                  <t>
+                    <t t-out="str(o.product_uom_qty or '').rjust(6,'?')"/><t t-out="(o.product_uom.name or '').ljust(6,'?')"/><t t-out="(o.product_id.name or '').ljust(25,'?')"/><t t-out="(o.brand_id.name or '').ljust(6,'?')"/><t t-out="(str('{:4,.0f}'.format(o.price_unit))or '').rjust(17,'?')"/><t t-out="(str('{:4,.0f}'.format(o.price_subtotal))or '').rjust(17,'?')"/>
+                  </t>
+                </tr>
+              </t>
+              <br/>
+              <br/>
+                <t t-out="' '.rjust(43,'?')"/><t t-out="'#DPP >> Rp.'.rjust(17,'?')"/><t t-out="str('{:4,.0f}'.format(object.amount_untaxed)).rjust(17,'?')"/>
+              <br/>
+                <t t-out="' '.rjust(43,'?')"/><t t-out="'#PPN >> Rp.'.rjust(17,'?')"/><t t-out="str('{:4,.0f}'.format(object.amount_tax)).rjust(17,'?')"/>
+              <br/>
+                <t t-out="' '.rjust(43,'?')"/><t t-out="'#TOTAL >> Rp.'.rjust(17,'?')"/><t t-out="str('{:4,.0f}'.format(object.amount_total)).rjust(17,'?')"/>
+
+            </p>
+          </div>
+        </field>
+      </record>
+
+      <record id="template_dotmatrix_do" model="mail.template">
+        <field name="name">Dotmatrix DO</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="subject">Dot Matrix Template for DO</field>
+        <field name="body_html" type="html">
+          <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+              <t t-out="object.company_id.name or ''">PT.xyz</t>
+              <br/>
+                        Tanggal : <t t-out="(str(object.scheduled_date.date())or '').ljust(30,'?')"/>
+            <t t-out="object.partner_id.name"/>
+            <br/>
+            <t t-out="'No#'.ljust(7,'?')"/>
+ :            <t t-out="object.name.ljust(30,'?')"/>
+            <t t-out="object.partner_id.street"/>
+            <t t-out="object.partner_id.street2"/>
+            <br/>
+            <t t-out="' '.ljust(41,'?')"/>
+            <t t-out="object.partner_id.city"/>
+            <br/>
+            <br/>
+            <t t-out="'Qty '.rjust(13,'?')"/><t t-out="'Kode Barang'.ljust(25,'?')"/><t t-out="'Merek'.ljust(10,'?')"/>Keterangan
+            <br/>
+            <t t-out="' '.ljust(80,'-')"/>
+            <br/>
+            <t t-foreach="object.move_ids" t-as="o">
+              <tr>
+                <t>
+                  <t t-out="(str(o.quantity_done)or '').rjust(6,'?')"/><t t-out="(o.product_uom.name or '').rjust(7,'?')"/><t t-out="(o.product_id.name or '').ljust(25,'?')"/><t t-out="(o.sale_line_id.brand_id.name or '').ljust(10,'?')"/><t t-out="o.description_picking"/>
+                </t>
+              </tr>
+            </t>
+            <br/>
+            <br/>
+            <t t-out="'Disiapkan'.ljust(12,'?')"/>
+            <t t-out="'Cek #1'.ljust(12,'?')"/>
+            <t t-out="'Cek #2'.ljust(12,'?')"/>
+            <t t-out="'Penerima'.ljust(12,'?')"/>
+ -
+            <br/>
+            <br/>
+            <br/>
+            <t t-out="'----------'.ljust(12,'?')"/>
+            <t t-out="'----------'.ljust(12,'?')"/>
+            <t t-out="'----------'.ljust(12,'?')"/>
+            <t t-out="'----------'.ljust(12,'?')"/>
+Prn(<t t-out="object.button_times"/>) <t t-out="object.env.user.name"/>/<t t-out="object.env.user.employee_id.department_id.name or ''"/> <t t-out="object.scheduled_date"/>
+          <br/>
+          <t t-out="'Retur Maksimal 14 hari dari tanggal surat jalan dan segel belum dibuka'.rjust(80,'?')"/>
+        </p>
+      </div>
+    </field>
+  </record>
+      <record id="template_dotmatrix_kwitansi" model="mail.template">
+        <field name="name">Dotmatrix Kwitansi</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="subject">Dot Matrix Template for Kwitansi</field>
+        <field name="body_html" type="html">
+          <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                <t t-out="object.company_id.name or ''">PT.xyz</t>
+              <br/>
+                <t t-out="object.company_id.street"/><t t-out="object.company_id.street2"/> T:<t t-out="object.company_id.phone"/>F:<t t-out="object.company_id.partner_id.fax"/> email:<t t-out="object.company_id.email"/>
+              <br/>
+              <br/>
+                KWITANSI : <t t-out="object.name"/>
+              <br/>
+                Sudah Terima Dari <t t-out="object.partner_id.name"/>
+              <br/>
+                Untuk Pembayaran <t t-out="object.ref"/>
+              <br/>
+              <br/>
+                Terbilang # <t t-out="object.bilangan"/>#
+              <br/>
+                JUMLAH Rp. <t t-out="'{:4,.0f}'.format(object.amount)"/>
+              <br/>
+                <t t-out="(object.company_id.city or '').rjust(55,'?')"/>, Tanggal <t t-out="object.date"/>
+              <br/>
+              <br/>
+                Full Payment <t t-out="object.partner_bank_id.bank_id.name"/>
+              <br/>
+                a/n <t t-out="object.partner_bank_id.acc_holder_name"/> a/c <t t-out="object.partner_bank_id.acc_number"/>
+              <br/>
+              <br/>
+                <t t-out="object.env.user.name.rjust(70,'?')"/>
+
+            </p>
+          </div>
+        </field>
+      </record>
+    </data>
+</odoo>

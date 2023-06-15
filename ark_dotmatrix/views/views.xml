@@ -1,0 +1,107 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record id="view_order_form_dotmatrix" model="ir.ui.view">
+      <field name="name">sale.order.form.dotmatrix</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form" />
+      <field name="arch" type="xml">
+        <!-- <xpath expr="//form" position="attributes">
+          <attribute name="js_class">dotmatrix</attribute>
+        </xpath> -->
+        <xpath expr="//button[@name='action_cancel']" position="after">
+            <button type="object" string="dotmatrix" name="print_button" custom="print" states='sale'/>
+        </xpath>
+        <xpath expr="//page[@name='customer_signature']" position="after">
+          <page name="dotmatrix" string="Dotmatrix">
+            <group>
+              <field name="print_data"  />
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="stock_picking_form_dotmatrix" model="ir.ui.view">
+      <field name="name">stock.picking.form.dotmatrix</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form" />
+      <field name="arch" type="xml">
+        <!-- <xpath expr="//form" position="attributes">
+          <attribute name="js_class">dotmatrix</attribute>
+        </xpath> -->
+        <xpath expr="//button[@name='action_cancel']" position="after">
+          <button type="object" string="dotmatrix" name="print_button" custom="print" states='done'/>
+          <!-- <button type="object" string="datax" name="generate_print_data" states='done'/> -->
+        </xpath>
+        <xpath expr="//page[@name='note']" position="after">
+          <page name="dotmatrix" string="Dotmatrix">
+            <group>
+              <field name="print_data" />
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="account_payment_form_dotmatrix" model="ir.ui.view">
+      <field name="name">account.payment.form.dotmatrix</field>
+      <field name="model">account.payment</field>
+      <field name="inherit_id" ref="account.view_account_payment_form" />
+      <field name="arch" type="xml">
+        <!-- <xpath expr="//form" position="attributes">
+          <attribute name="js_class">dotmatrix</attribute>
+        </xpath> -->
+        <xpath expr="//button[@name='action_cancel']" position="after">
+          <button type="object" string="dotmatrix" name="print_button" custom="print" attrs="{'invisible':['|',('payment_type','!=','inbound'),('state','!=','posted')]}"/>
+          <!-- <button type="object" string="datax" name="generate_print_data" states='posted'/> -->
+        </xpath>
+        <xpath expr="//field[@name='ref']" position="after">
+          <field name="print_data" />
+        </xpath>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="ark_dotmatrix.action_window">
+      <field name="name">ark_dotmatrix window</field>
+      <field name="res_model">ark_dotmatrix.ark_dotmatrix</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="ark_dotmatrix.action_server">
+      <field name="name">ark_dotmatrix server</field>
+      <field name="model_id" ref="model_ark_dotmatrix_ark_dotmatrix"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="ark_dotmatrix" id="ark_dotmatrix.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="ark_dotmatrix.menu_1" parent="ark_dotmatrix.menu_root"/>
+    <menuitem name="Menu 2" id="ark_dotmatrix.menu_2" parent="ark_dotmatrix.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="ark_dotmatrix.menu_1_list" parent="ark_dotmatrix.menu_1"
+              action="ark_dotmatrix.action_window"/>
+    <menuitem name="Server to list" id="ark_dotmatrix" parent="ark_dotmatrix.menu_2"
+              action="ark_dotmatrix.action_server"/>
+-->
+  </data>
+</odoo>
